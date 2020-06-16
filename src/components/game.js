@@ -28,14 +28,6 @@ export default class Game extends React.Component {
       [0, 0, 0, 0],
       [0, 0, 0, 0],
     ];
-    // let board = [];
-    // for (let i = 0; i < n; i++) {
-    //   const row = [];
-    //   for (let j = 0; j < n; j++) {
-    //     row.push(0);
-    //   }
-    //   board.push(row);
-    // }
     board = this.placeRandom(this.placeRandom(board));
     this.setState({
       board,
