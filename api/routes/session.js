@@ -1,42 +1,41 @@
+/* eslint-disable prefer-destructuring */
 const ForgeSDK = require('@arcblock/forge-sdk');
 const env = require('../libs/env');
 
 module.exports = {
   init(app) {
     app.get('/api/did/session', async (req, res) => {
-      const { getForgeState: data } = await ForgeSDK.doRawQuery(`{
-          getForgeState {
-            code
-            state {
-              token {
-                decimal
-                description
-                icon
-                inflationRate
-                initialSupply
-                name
-                symbol
-                totalSupply
-                unit
-              }
-              txConfig {
-                poke {
-                  amount
-                }
-              }
-            }
-          }
-        }`);
+      const [chainState, assetChainState] = await Promise.all([
+        ForgeSDK.getForgeState({ conn: env.chainId }),
+        ForgeSDK.getForgeState({ conn: env.assetChainId }),
+      ]);
 
+      const balances = {};
       if (req.user) {
         const result = await Promise.all([
           ForgeSDK.getAccountState({ address: req.user.did }, { conn: env.chainId }),
           ForgeSDK.getAccountState({ address: req.user.did }, { conn: env.assetChainId }),
         ]);
-        console.log(result);
+
+        balances[env.chainId] = result[0].state
+          ? await ForgeSDK.fromUnitToToken(result[0].state.balance, { conn: env.chainId })
+          : 0;
+        balances[env.assetChainId] = result[1].state
+          ? await ForgeSDK.fromUnitToToken(result[1].state.balance, { conn: env.assetChainId })
+          : 0;
       }
 
-      res.json({ user: req.user, token: data.state.token, poke: data.state.txConfig.poke });
+      res.json({
+        user: req.user,
+        [env.chainId]: {
+          token: chainState.state.token,
+          balance: balances[env.chainId],
+        },
+        [env.assetChainId]: {
+          token: assetChainState.state.token,
+          balance: balances[env.assetChainId],
+        },
+      });
     });
 
     app.post('/api/did/logout', (req, res) => {
