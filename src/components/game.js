@@ -1,4 +1,12 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable operator-assignment */
+/* eslint-disable no-unused-expressions */
+/* eslint-disable react/no-access-state-in-setstate */
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable no-plusplus */
 import React from 'react';
+
+import Button from '@arcblock/ux/lib/Button';
 
 export default class Game extends React.Component {
   constructor(props) {
@@ -30,7 +38,10 @@ export default class Game extends React.Component {
     // }
     board = this.placeRandom(this.placeRandom(board));
     this.setState({
-      board, score: 0, gameOver: false, message: null,
+      board,
+      score: 0,
+      gameOver: false,
+      message: null,
     });
   }
 
@@ -322,58 +333,32 @@ export default class Game extends React.Component {
   }
 
   render() {
+    const onNewGame = () => {
+      if (typeof this.props.onNewGame === 'function') {
+        this.props.onNewGame(() => {
+          this.initBoard();
+        });
+      } else {
+        this.initBoard();
+      }
+    };
+
     return (
       <div>
-        <div
-          className="button"
-          onClick={() => {
-            this.initBoard();
-          }}>
-          New Game
-        </div>
-
-        <div className="buttons">
-          <div
-            className="button"
-            onClick={() => {
-              this.move('up');
-            }}>
-            Up
-          </div>
-          <div
-            className="button"
-            onClick={() => {
-              this.move('right');
-            }}>
-            Right
-          </div>
-          <div
-            className="button"
-            onClick={() => {
-              this.move('down');
-            }}>
-            Down
-          </div>
-          <div
-            className="button"
-            onClick={() => {
-              this.move('left');
-            }}>
-            Left
+        <div className="meta">
+          <Button size="small" variant="contained" color="primary" onClick={onNewGame}>
+            New Game
+          </Button>
+          <div className="score">
+            Score:
+            {this.state.score}
           </div>
         </div>
-
-        <div className="score">
-Score:
-          {this.state.score}
-        </div>
-
         <table>
           {this.state.board.map((row, i) => (
             <Row key={i} row={row} />
           ))}
         </table>
-
         <p>{this.state.message}</p>
       </div>
     );

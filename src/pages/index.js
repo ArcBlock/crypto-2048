@@ -45,33 +45,12 @@ const Main = styled.main`
     margin: 0 auto;
   }
 
-  .buttons {
-    margin: 0 auto;
+  .meta {
+    width: 410px;
     display: flex;
-    width: 500px;
-  }
-
-  .button {
-    background-color: #303030;
-    color: #50c8ff;
-    height: 30px;
-    width: 100px;
-    border-radius: 5px;
-    margin: 0 auto;
-    margin-bottom: 25px;
-    text-align: center;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
     align-items: center;
-    cursor: pointer;
-    transition: background-color 0.5s, color 0.5s;
-  }
-
-  .button:hover {
-    background-color: #50c8ff;
-    color: #303030;
-    transition: background-color 0.5s, color 0.5s;
+    justify-content: space-between;
+    margin: 24px auto;
   }
 
   .cell {
@@ -134,10 +113,5 @@ const Main = styled.main`
   .number {
     color: #fff;
     font-size: 35px;
-  }
-
-  .score {
-    text-align: center;
-    margin-bottom: 20px;
   }
 `;
