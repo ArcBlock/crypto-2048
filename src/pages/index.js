@@ -1,17 +1,22 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 
 import Layout from '../components/layout';
 import Game from '../components/game';
+import { SessionContext } from '../libs/session';
 
 export default function IndexPage() {
+  const { session } = useContext(SessionContext);
+  const { chainId, assetChainId } = window.env;
+  const { [chainId]: chain, [assetChainId]: assetChain } = session;
+
   return (
     <Layout title="Home">
       <Main>
         <h1 className="animated fadeInRightBig">2048</h1>
         <p>Use the buttons or arrow keys to play game. Press 'N' to start a new game.</p>
         <div id="main">
-          <Game />
+          <Game chainInfo={{ chain, assetChain }} />
         </div>
       </Main>
     </Layout>
@@ -56,7 +61,7 @@ const Main = styled.main`
   .cell {
     height: 100px;
     width: 100px;
-    background-color: #D0D0D0;
+    background-color: #d0d0d0;
     border-radius: 5px;
     display: flex;
     justify-content: center;

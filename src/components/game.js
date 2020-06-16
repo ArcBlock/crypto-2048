@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable react/prop-types */
 /* eslint-disable operator-assignment */
 /* eslint-disable no-unused-expressions */
@@ -335,21 +336,41 @@ export default class Game extends React.Component {
       }
     };
 
+    const onBuyCoins = () => {
+      if (typeof this.props.onBuyCoins === 'function') {
+        this.props.onBuyCoins();
+      }
+    };
+
     return (
       <div>
         <div className="meta">
-          <Button size="small" variant="contained" color="primary" onClick={onNewGame}>
-            New Game
-          </Button>
           <div className="score">
-            Score:
+            Score:&nbsp;
             {this.state.score}
           </div>
+          <div className="score">
+            Coin:&nbsp;
+            {this.props.chainInfo.chain.balance} {this.props.chainInfo.chain.token.symbol}
+          </div>
+          <Button
+            size="small"
+            variant="contained"
+            color="primary"
+            onClick={onNewGame}
+            disabled={this.props.chainInfo.chain.balance <= 0}>
+            New Game
+          </Button>
+          <Button size="small" variant="contained" color="secondary" onClick={onBuyCoins}>
+            Buy Coins
+          </Button>
         </div>
         <table>
-          {this.state.board.map((row, i) => (
-            <Row key={i} row={row} />
-          ))}
+          <tbody>
+            {this.state.board.map((row, i) => (
+              <Row key={i} row={row} />
+            ))}
+          </tbody>
         </table>
         <p>{this.state.message}</p>
       </div>
