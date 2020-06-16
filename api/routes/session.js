@@ -27,6 +27,15 @@ module.exports = {
             }
           }
         }`);
+
+      if (req.user) {
+        const result = await Promise.all([
+          ForgeSDK.getAccountState({ address: req.user.did }, { conn: env.chainId }),
+          ForgeSDK.getAccountState({ address: req.user.did }, { conn: env.assetChainId }),
+        ]);
+        console.log(result);
+      }
+
       res.json({ user: req.user, token: data.state.token, poke: data.state.txConfig.poke });
     });
 

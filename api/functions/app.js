@@ -77,25 +77,19 @@ server.use((req, res, next) => {
       req.user = user;
       next();
     })
-    .catch(err => {
+    .catch(() => {
       next();
     });
 });
 
-const { handlers, wallet } = require('../libs/auth');
-const loginAuth = require('../routes/auth/login');
-const paymentAuth = require('../routes/auth/payment');
-const checkinAuth = require('../routes/auth/checkin');
-const sessionRoutes = require('../routes/session');
-const paymentsRoutes = require('../routes/payments');
+const { handlers, swapHandlers, wallet } = require('../libs/auth');
 
 const router = express.Router();
 
-handlers.attach(Object.assign({ app: router }, loginAuth));
-handlers.attach(Object.assign({ app: router }, checkinAuth));
-handlers.attach(Object.assign({ app: router }, paymentAuth));
-sessionRoutes.init(router);
-paymentsRoutes.init(router);
+handlers.attach(Object.assign({ app: router }, require('../routes/auth/login')));
+swapHandlers.attach(Object.assign({ app: router }, require('../routes/auth/swap')));
+require('../routes/session').init(router);
+require('../routes/payments').init(router);
 
 // Check for application account
 ForgeSDK.getAccountState({ address: wallet.toAddress() })

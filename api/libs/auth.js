@@ -1,8 +1,9 @@
 const Mcrypto = require('@arcblock/mcrypto');
 const ForgeSDK = require('@arcblock/forge-sdk');
 const MongoStorage = require('@arcblock/did-auth-storage-mongo');
+const SwapMongoStorage = require('@arcblock/swap-storage-mongo');
 const { fromSecretKey, WalletType } = require('@arcblock/forge-wallet');
-const { WalletAuthenticator, WalletHandlers } = require('@arcblock/did-auth');
+const { WalletAuthenticator, WalletHandlers, SwapHandlers } = require('@arcblock/did-auth');
 const env = require('./env');
 
 const netlifyPrefix = '/.netlify/functions/app';
@@ -46,16 +47,34 @@ const walletAuth = new WalletAuthenticator({
   },
 });
 
+const tokenStorage = new MongoStorage({ url: process.env.MONGO_URI });
+const swapStorage = new SwapMongoStorage({ url: process.env.MONGO_URI });
+
 const walletHandlers = new WalletHandlers({
   authenticator: walletAuth,
   tokenGenerator: () => Date.now().toString(),
-  tokenStorage: new MongoStorage({
-    url: process.env.MONGO_URI,
-  }),
+  tokenStorage,
+});
+
+
+const swapHandlers = new SwapHandlers({
+  authenticator: walletAuth,
+  tokenStorage,
+  swapStorage,
+  swapContext: {
+    offerChainId: env.chainId,
+    offerChainHost: env.chainHost,
+    demandChainId: env.assetChainId,
+    demandChainHost: env.assetChainHost,
+  },
+  options: {
+    swapKey: 'tid',
+  },
 });
 
 module.exports = {
   authenticator: walletAuth,
   handlers: walletHandlers,
+  swapHandlers,
   wallet,
 };
