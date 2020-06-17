@@ -12,28 +12,25 @@ const description = {
 module.exports = {
   action: 'login',
   claims: {
-    profile: ({ extraParams: { locale } }) => {
-      return {
-        fields: ['fullName', 'email'],
-        description: description[locale] || description.en,
-      };
-    },
+    profile: ({ extraParams: { locale } }) => ({
+      fields: ['fullName', 'email', 'avatar'],
+      description: description[locale] || description.en,
+    }),
   },
   onAuth: async ({ claims, userDid, token, storage }) => {
     try {
       const profile = claims.find(x => x.type === 'profile');
       const exist = await User.findOne({ did: userDid });
       if (exist) {
-        console.log('update user', userDid, JSON.stringify(profile));
         exist.name = profile.fullName;
-        exist.email = profile.email;
+        exist.avatar = profile.avatar;
         await exist.save();
       } else {
-        console.log('create user', userDid, JSON.stringify(profile));
         const user = new User({
           did: userDid,
           name: profile.fullName,
           email: profile.email,
+          avatar: profile.avatar,
         });
         await user.save();
       }

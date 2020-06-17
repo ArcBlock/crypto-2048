@@ -1,6 +1,8 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 
+import Avatar from '@material-ui/core/Avatar';
+
 import Layout from '../components/layout';
 import Game from '../components/game';
 import { SessionContext } from '../libs/session';
@@ -13,7 +15,10 @@ export default function IndexPage() {
   return (
     <Layout title="Home">
       <Main>
-        <h1 className="animated fadeInRightBig">Crypto 2048</h1>
+        <div className="header">
+          <h1 className="animated fadeInRightBig">Crypto 2048</h1>
+          <Avatar className="user-avatar" variant="circle" src={session.user.avatar} alt={session.user.name} />
+        </div>
         <p>Use arrow keys to play game. Press 'N' to start a new game.</p>
         <div id="main">
           <Game chainInfo={{ chain, assetChain }} />
@@ -24,13 +29,19 @@ export default function IndexPage() {
 }
 
 const Main = styled.main`
-  h1 {
-    text-align: center;
-    font-size: 40px;
-  }
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    h1 {
+      font-size: 40px;
+      margin: 0;
+    }
 
-  p {
-    text-align: center;
+    .user-avatar {
+      width: 36px;
+      height: 36px;
+    }
   }
 
   table {
@@ -42,7 +53,7 @@ const Main = styled.main`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin: 32px auto;
+    margin: 24px auto;
   }
 
   .cell {
