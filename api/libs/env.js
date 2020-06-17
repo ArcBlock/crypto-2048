@@ -12,13 +12,13 @@ module.exports = {
     process.env.GATSBY_APP_NAME ||
     process.env.APP_NAME ||
     process.env.appName ||
-    'Blockchain Boarding Gate',
+    'Crypto 2048',
   appDescription:
     process.env.REACT_APP_APP_DESCRIPTION ||
     process.env.GATSBY_APP_DESCRIPTION ||
     process.env.APP_DESCRIPTION ||
     process.env.appDescription ||
-    'A simple blocklet that helps you onboarding users to blockchain',
+    'A simple 2048 clone that demos how to integrate games with ArcBlock technologies',
   baseUrl:
     process.env.BLOCKLET_BASE_URL ||
     process.env.REACT_APP_BASE_URL ||
@@ -38,27 +38,23 @@ module.exports = {
     process.env.REACT_APP_CHAIN_ID ||
     process.env.GATSBY_CHAIN_ID ||
     process.env.CHAIN_ID ||
-    process.env.chainId ||
-    'liberia',
+    process.env.chainId,
   chainHost:
     process.env.LOCAL_CHAIN_HOST ||
     process.env.REACT_APP_CHAIN_HOST ||
     process.env.GATSBY_CHAIN_HOST ||
     process.env.CHAIN_HOST ||
-    process.env.chainHost ||
-    'https://lbd.abtnetwork.io/api',
+    process.env.chainHost,
   assetChainId:
     process.env.FOREIGN_CHAIN_ID ||
     process.env.REACT_APP_ASSET_CHAIN_ID ||
     process.env.GATSBY_ASSET_CHAIN_ID ||
     process.env.ASSET_CHAIN_ID ||
-    process.env.assetChainId ||
-    'ausd',
+    process.env.assetChainId,
   assetChainHost:
     process.env.FOREIGN_CHAIN_HOST ||
     process.env.REACT_APP_ASSET_CHAIN_HOST ||
     process.env.GATSBY_ASSET_CHAIN_HOST ||
     process.env.ASSET_CHAIN_HOST ||
-    process.env.assetChainHost ||
-    'https://ausd.abtnetwork.io/api',
+    process.env.assetChainHost,
 };
