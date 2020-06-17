@@ -76,5 +76,6 @@ module.exports = {
   authenticator: walletAuth,
   handlers: walletHandlers,
   swapHandlers,
+  swapStorage,
   wallet,
 };

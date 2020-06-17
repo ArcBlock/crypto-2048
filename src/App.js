@@ -13,23 +13,7 @@ import HomePage from './pages/index';
 
 import { SessionProvider } from './libs/session';
 
-const theme = create({
-  typography: {
-    fontSize: 14,
-    fontFamily: [
-      '-apple-system',
-      'BlinkMacSystemFont',
-      '"Segoe UI"',
-      'Roboto',
-      '"Helvetica Neue"',
-      'Arial',
-      'sans-serif',
-      '"Apple Color Emoji"',
-      '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"',
-    ].join(','),
-  },
-});
+const theme = create();
 
 const GlobalStyle = createGlobalStyle`
   a {
