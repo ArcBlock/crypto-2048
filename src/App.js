@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Route, Switch, Redirect, withRouter } from 're
 
 import CssBaseline from '@material-ui/core/CssBaseline';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Center from '@arcblock/ux/lib/Center';
 
 import HomePage from './pages/index';
 
@@ -49,7 +50,11 @@ export const App = () => (
       <SessionProvider serviceHost="" autoLogin>
         {({ session }) => {
           if (session.loading) {
-            return <CircularProgress />;
+            return (
+              <Center>
+                <CircularProgress />
+              </Center>
+            );
           }
 
           return (

@@ -2,6 +2,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable operator-assignment */
 /* eslint-disable no-unused-expressions */
+/* eslint-disable react/no-direct-mutation-state */
 /* eslint-disable react/no-access-state-in-setstate */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable no-plusplus */

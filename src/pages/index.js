@@ -13,8 +13,8 @@ export default function IndexPage() {
   return (
     <Layout title="Home">
       <Main>
-        <h1 className="animated fadeInRightBig">2048</h1>
-        <p>Use the buttons or arrow keys to play game. Press 'N' to start a new game.</p>
+        <h1 className="animated fadeInRightBig">Crypto 2048</h1>
+        <p>Use arrow keys to play game. Press 'N' to start a new game.</p>
         <div id="main">
           <Game chainInfo={{ chain, assetChain }} />
         </div>
@@ -24,22 +24,9 @@ export default function IndexPage() {
 }
 
 const Main = styled.main`
-  a {
-    color: ${props => props.theme.colors.green};
-    text-decoration: none;
-  }
-
-  .page-header {
-    margin-bottom: 20px;
-  }
-
-  .page-description {
-    margin-bottom: 30px;
-  }
-
   h1 {
     text-align: center;
-    font-size: 50px;
+    font-size: 40px;
   }
 
   p {
@@ -55,7 +42,7 @@ const Main = styled.main`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin: 24px auto;
+    margin: 32px auto;
   }
 
   .cell {
