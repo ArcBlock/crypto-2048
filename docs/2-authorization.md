@@ -1,3 +1,14 @@
+# Add authorization
+
+## 1. Add dependencies
+
+`yarn add @arcblock/did-util @arcblock/tx-util`
+
+## 2. Add backend handler
+
+### 2.1 Create `api/routes/auth/authorize.js`
+
+```javascript
 /* eslint-disable no-console */
 const ForgeSDK = require('@arcblock/forge-sdk');
 const { verifyTxAsync } = require('@arcblock/tx-util');
@@ -59,3 +70,49 @@ module.exports = {
     return { hash, tx: claim.origin };
   },
 };
+```
+
+### 2.2 Load the new route in `api/functions/app.js`
+
+```javascript
+// ...
+handlers.attach(Object.assign({ app: router }, require('../routes/auth/authorize')));
+// ...
+```
+
+## 3. Add atomic-swap frontend
+
+In `src/pages/index.js`:
+
+```javascript
+  const [authOpen, setAuthOpen] = useState(false);
+  const onAuthClose = () => setAuthOpen(false);
+  const onAuthSuccess = () => {
+    setTimeout(onAuthClose, 1000);
+  };
+
+
+          <Button size="small" variant="outlined" color="primary" onClick={() => setAuthOpen(true)}>
+            Sign Agreement
+          </Button>
+
+        {authOpen && (
+          <DidAuth
+            responsive
+            action="authorize"
+            checkFn={api.get}
+            onClose={onAuthClose}
+            onSuccess={onAuthSuccess}
+            checkTimeout={5 * 60 * 1000}
+            extraParams={{}}
+            messages={{
+              title: 'Signature Required',
+              scan: 'Scan qrcode to authorize the game to charge you when start new game',
+              confirm: 'Review this operation on ABT Wallet',
+              success: 'Operation Success',
+            }}
+          />
+        )}
+```
+
+## 4. Test Authentication

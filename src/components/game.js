@@ -36,7 +36,7 @@ export default class Game extends React.Component {
           }
         });
       } else {
-        this.initBoard();
+        this.initBoard(true);
       }
     };
   }

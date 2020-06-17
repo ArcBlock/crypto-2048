@@ -1,3 +1,18 @@
+# Blocklet Deploy
+
+## 1. update blocklet.json
+
+```json
+{
+  "hooks": {
+    "pre-deploy": "npm run bundle"
+  }
+}
+```
+
+## 2. Add pre-start hook: `api/hooks/pre-start.js`
+
+```javascript
 /* eslint-disable no-plusplus */
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-console */
@@ -83,3 +98,6 @@ const ensureAccountFunded = async (chainId, chainHost) => {
     process.exit(1);
   }
 })();
+```
+
+## 3. Test Deploy

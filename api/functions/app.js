@@ -13,7 +13,7 @@ const bodyParser = require('body-parser');
 const bearerToken = require('express-bearer-token');
 
 const { decode } = require('../libs/jwt');
-const { handlers, swapHandlers } = require('../libs/auth');
+const { handlers } = require('../libs/auth');
 
 const netlifyPrefix = '/.netlify/functions/app';
 const isProduction = process.env.NODE_ENV === 'production' || !!process.env.BLOCKLET_APP_ID;
@@ -90,11 +90,7 @@ server.use((req, res, next) => {
 const router = express.Router();
 
 handlers.attach(Object.assign({ app: router }, require('../routes/auth/login')));
-handlers.attach(Object.assign({ app: router }, require('../routes/auth/authorize')));
-handlers.attach(Object.assign({ app: router }, require('../routes/auth/trophy')));
-swapHandlers.attach(Object.assign({ app: router }, require('../routes/auth/swap')));
 require('../routes/session').init(router);
-require('../routes/game').init(router);
 
 if (isProduction) {
   server.use(compression());

@@ -1,3 +1,10 @@
+# Add Trophy
+
+## 2. Add backend handler
+
+### 2.1 Create `api/routes/auth/trophy.js`
+
+```javascript
 /* eslint-disable no-console */
 const ForgeSDK = require('@arcblock/forge-sdk');
 const { NFTFactory, NFTRecipient } = require('@arcblock/nft');
@@ -71,3 +78,62 @@ module.exports = {
     return { hash };
   },
 };
+```
+
+### 2.2 Load the new route in `api/functions/app.js`
+
+```javascript
+// ...
+handlers.attach(Object.assign({ app: router }, require('../routes/auth/trophy')));
+// ...
+```
+
+## 3. Add frontend
+
+In `src/pages/index.js`:
+
+```javascript
+  const [trophyOpen, setTrophyOpen] = useState(false);
+  const [hasTrophy, setHasTrophy] = useState(false);
+  const onTrophyClose = () => {
+    setTrophyOpen(false);
+    setHasTrophy(false);
+  };
+  const onTrophySuccess = () => {
+    setTimeout(onTrophyClose, 1000);
+  };
+
+  const onGameOver = state => {
+    if (state.score > 1024) {
+      setHasTrophy(true);
+    }
+  };
+
+          <Game chainInfo={{ chain, assetChain }} onGameStart={onGameStart} onGameOver={onGameOver} />
+
+          {hasTrophy && (
+            <Button size="small" variant="outlined" color="primary" onClick={() => setTrophyOpen(true)}>
+              Claim Trophy
+            </Button>
+          )}
+
+        {trophyOpen && (
+          <DidAuth
+            responsive
+            action="trophy"
+            checkFn={api.get}
+            onClose={onTrophyClose}
+            onSuccess={onTrophySuccess}
+            checkTimeout={5 * 60 * 1000}
+            extraParams={{}}
+            messages={{
+              title: 'Claim Trophy',
+              scan: 'Scan qrcode to claim your achievement trophy',
+              confirm: 'Review this operation on ABT Wallet',
+              success: 'Operation Success',
+            }}
+          />
+        )}
+```
+
+## 4. Test Start Game

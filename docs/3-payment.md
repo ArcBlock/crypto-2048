@@ -1,3 +1,10 @@
+# Add payment
+
+## 2. Add backend handler
+
+### 2.1 Create `api/routes/game.js`
+
+```javascript
 /* eslint-disable no-console */
 const ForgeSDK = require('@arcblock/forge-sdk');
 const { verifyTxAsync } = require('@arcblock/tx-util');
@@ -27,3 +34,34 @@ module.exports = {
     });
   },
 };
+```
+
+### 2.2 Load the new route in `api/functions/app.js`
+
+```javascript
+// ...
+require('../routes/game').init(router);
+// ...
+```
+
+## 3. Add frontend
+
+In `src/pages/index.js`:
+
+```javascript
+  const onGameStart = done => {
+    api
+      .post('/api/game/start')
+      .then(async data => {
+        await session.refresh();
+        done(null, data);
+      })
+      .catch(err => {
+        done(err.message);
+      });
+  };
+
+          <Game chainInfo={{ chain, assetChain }} onGameStart={onGameStart} />
+```
+
+## 4. Test Start Game

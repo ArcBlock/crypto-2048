@@ -1,3 +1,8 @@
+# Blocklet init
+
+## 1. Run blocklet.init
+
+```json
 {
   "name": "crypto-2048",
   "title": "Crypto 2048",
@@ -8,7 +13,6 @@
   "main": "api/index.js",
   "color": "primary",
   "hooks": {
-    "pre-deploy": "npm run bundle",
     "pre-start": "node api/hooks/pre-start.js"
   },
   "hookFiles": ["api/hooks/pre-start.js"],
@@ -45,3 +49,4 @@
     }
   ]
 }
+```
