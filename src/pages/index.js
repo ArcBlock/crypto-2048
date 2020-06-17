@@ -55,12 +55,14 @@ export default function IndexPage() {
         <div id="main">
           <Game chainInfo={{ chain, assetChain }} onNewGame={onNewGame} />
         </div>
-        <Button variant="outlined" color="primary" onClick={() => setAuthOpen(true)}>
-          Authorize
-        </Button>
-        <Button variant="outlined" color="secondary" onClick={onSwapOpen}>
-          Buy Coins
-        </Button>
+        <div className="buttons">
+          <Button size="small" variant="outlined" color="primary" onClick={() => setAuthOpen(true)}>
+            Sign Agreement
+          </Button>
+          <Button size="small" variant="outlined" color="secondary" onClick={onSwapOpen}>
+            Buy Coins
+          </Button>
+        </div>
         {authOpen && (
           <DidAuth
             responsive
@@ -120,7 +122,8 @@ const Main = styled.main`
     margin: 0 auto;
   }
 
-  .meta {
+  .meta,
+  .buttons {
     width: 410px;
     display: flex;
     align-items: center;

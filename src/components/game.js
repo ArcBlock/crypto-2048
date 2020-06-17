@@ -1,3 +1,4 @@
+/* eslint-disable object-curly-newline */
 /* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable react/prop-types */
 /* eslint-disable operator-assignment */
@@ -21,6 +22,22 @@ export default class Game extends React.Component {
       gameOver: false,
       message: null,
       loading: false,
+    };
+
+    this.onNewGame = () => {
+      if (typeof this.props.onNewGame === 'function') {
+        this.setState({ loading: true });
+        this.props.onNewGame(err => {
+          if (err) {
+            this.setState({ message: err, loading: false });
+          } else {
+            this.setState({ loading: false });
+            this.initBoard(true);
+          }
+        });
+      } else {
+        this.initBoard();
+      }
     };
   }
 
@@ -326,27 +343,11 @@ export default class Game extends React.Component {
     } else if (e.keyCode === left) {
       this.move('left');
     } else if (e.keyCode === n) {
-      this.initBoard(true);
+      this.onNewGame();
     }
   }
 
   render() {
-    const onNewGame = () => {
-      if (typeof this.props.onNewGame === 'function') {
-        this.setState({ loading: true });
-        this.props.onNewGame(err => {
-          if (err) {
-            this.setState({ message: err, loading: false });
-          } else {
-            this.setState({ loading: false });
-            this.initBoard(true);
-          }
-        });
-      } else {
-        this.initBoard();
-      }
-    };
-
     const { board, score, message, loading } = this.state;
 
     return (
@@ -357,15 +358,15 @@ export default class Game extends React.Component {
             {score}
           </div>
           <div className="score">
-            Coin:&nbsp;
-            {this.props.chainInfo.chain.balance} {this.props.chainInfo.chain.token.symbol}
+            Coins:&nbsp;
+            {this.props.chainInfo.chain.balance}
           </div>
           <Button
             size="small"
             variant="contained"
             color="secondary"
             style={{ width: '100px' }}
-            onClick={onNewGame}
+            onClick={this.onNewGame}
             disabled={this.props.chainInfo.chain.balance <= 0 || loading}>
             {loading ? <CircularProgress size={24} /> : 'New Game'}
           </Button>
