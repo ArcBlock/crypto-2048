@@ -4,10 +4,10 @@
   "description": "A demo game that demos possibilities of integrating ArcBlock technologies into a game",
   "group": "dapp",
   "provider": "devcon",
+  "public_url": "/",
   "main": "api/index.js",
   "color": "primary",
   "hooks": {
-    "pre-deploy": "npm run bundle",
     "pre-start": "node api/hooks/pre-start.js"
   },
   "hookFiles": ["api/hooks/pre-start.js"],
