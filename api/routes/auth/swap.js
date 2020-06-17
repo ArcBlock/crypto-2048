@@ -7,12 +7,12 @@ const { swapStorage, wallet } = require('../../libs/auth');
 module.exports = {
   action: 'swap',
   claims: {
-    swap: async ({ userDid, extraParams: { tid, amount = 1000 } }) => {
+    swap: async ({ userDid, extraParams: { tid, amount = 100 } }) => {
       if (Number(amount) <= 0) {
         throw new Error('Invalid swap amount param for swap token action');
       }
 
-      const rate = 1000;
+      const rate = 100;
 
       const payload = {
         offerChainId: env.chainId,

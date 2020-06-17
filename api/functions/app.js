@@ -88,6 +88,7 @@ const router = express.Router();
 
 handlers.attach(Object.assign({ app: router }, require('../routes/auth/login')));
 handlers.attach(Object.assign({ app: router }, require('../routes/auth/authorize')));
+handlers.attach(Object.assign({ app: router }, require('../routes/auth/trophy')));
 swapHandlers.attach(Object.assign({ app: router }, require('../routes/auth/swap')));
 require('../routes/session').init(router);
 require('../routes/game').init(router);

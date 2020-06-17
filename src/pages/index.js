@@ -14,6 +14,8 @@ export default function IndexPage() {
 
   const [authOpen, setAuthOpen] = useState(false);
   const [swapOpen, setSwapOpen] = useState(false);
+  const [trophyOpen, setTrophyOpen] = useState(false);
+  const [hasTrophy, setHasTrophy] = useState(false);
 
   const { chainId, assetChainId } = window.env;
   const { [chainId]: chain, [assetChainId]: assetChain } = session;
@@ -32,7 +34,15 @@ export default function IndexPage() {
     setTimeout(onSwapClose, 1000);
   };
 
-  const onNewGame = done => {
+  const onTrophyClose = () => {
+    setTrophyOpen(false);
+    setHasTrophy(false);
+  };
+  const onTrophySuccess = () => {
+    setTimeout(onTrophyClose, 1000);
+  };
+
+  const onGameStart = done => {
     api
       .post('/api/game/start')
       .then(async data => {
@@ -42,6 +52,12 @@ export default function IndexPage() {
       .catch(err => {
         done(err.message);
       });
+  };
+
+  const onGameOver = state => {
+    if (state.score > 1024) {
+      setHasTrophy(true);
+    }
   };
 
   return (
@@ -57,12 +73,17 @@ export default function IndexPage() {
           Press 'N' to start a new game (each start will cost 2 coins)
         </p>
         <div id="main">
-          <Game chainInfo={{ chain, assetChain }} onNewGame={onNewGame} />
+          <Game chainInfo={{ chain, assetChain }} onGameStart={onGameStart} onGameOver={onGameOver} />
         </div>
         <div className="buttons">
           <Button size="small" variant="outlined" color="primary" onClick={() => setAuthOpen(true)}>
             Sign Agreement
           </Button>
+          {hasTrophy && (
+            <Button size="small" variant="outlined" color="primary" onClick={() => setTrophyOpen(true)}>
+              Claim Trophy
+            </Button>
+          )}
           <Button size="small" variant="outlined" color="secondary" onClick={onSwapOpen}>
             Buy Coins
           </Button>
@@ -79,6 +100,23 @@ export default function IndexPage() {
             messages={{
               title: 'Signature Required',
               scan: 'Scan qrcode to authorize the game to charge you when start new game',
+              confirm: 'Review this operation on ABT Wallet',
+              success: 'Operation Success',
+            }}
+          />
+        )}
+        {trophyOpen && (
+          <DidAuth
+            responsive
+            action="trophy"
+            checkFn={api.get}
+            onClose={onTrophyClose}
+            onSuccess={onTrophySuccess}
+            checkTimeout={5 * 60 * 1000}
+            extraParams={{}}
+            messages={{
+              title: 'Claim Trophy',
+              scan: 'Scan qrcode to claim your achievement trophy',
               confirm: 'Review this operation on ABT Wallet',
               success: 'Operation Success',
             }}

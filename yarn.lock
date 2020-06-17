@@ -198,6 +198,33 @@
     randombytes "^2.0.6"
     tweetnacl "^1.0.1"
 
+"@arcblock/nft-template@^1.3.1":
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/@arcblock/nft-template/-/nft-template-1.3.1.tgz#fac4c3fdb0772e9aa34a6bd343835f69b211ce88"
+  integrity sha512-nSrSQ2q+d+AAO8xBZPCyXLESoxCz1Sgkl89OfsVzHAgVdCHTPIJlyWCw5LZV148AqY4pOsh8TdwIvtVBq1fjiA==
+  dependencies:
+    "@arcblock/did" "^1.2.13"
+    "@arcblock/forge-util" "^1.2.13"
+    "@arcblock/forge-wallet" "^1.2.13"
+    "@arcblock/mcrypto" "^1.2.13"
+    "@arcblock/nft" "^1.3.1"
+    debug "^4.1.1"
+    lodash "^4.17.14"
+    pako "^1.0.11"
+
+"@arcblock/nft@^1.3.1":
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/@arcblock/nft/-/nft-1.3.1.tgz#1e7b90362a8634352db5714685525b02c715718f"
+  integrity sha512-IQAX6SDOnQqMtsldkh8Rn1cR+Cb2nBQ9FHICUCsAnEbm53rgTTy08xSNIjw2GuHMHk3wJU/v0+UkYkMGTrhPFA==
+  dependencies:
+    "@arcblock/forge-sdk" "^1.3.1"
+    "@arcblock/forge-wallet" "^1.2.13"
+    "@arcblock/vc" "^1.2.16"
+    debug "^4.1.1"
+    json-stable-stringify "^1.0.1"
+    lodash "^4.17.15"
+    pako "^1.0.11"
+
 "@arcblock/react-hooks@^0.78.0":
   version "0.78.0"
   resolved "https://registry.yarnpkg.com/@arcblock/react-hooks/-/react-hooks-0.78.0.tgz#1e43b56b893c1efa8b418eff3140207b45dc22fe"
@@ -281,6 +308,19 @@
     xterm "4.1.0"
     xterm-addon-fit "^0.2.1"
     xterm-addon-web-links "^0.2.1"
+
+"@arcblock/vc@^1.2.16":
+  version "1.2.16"
+  resolved "https://registry.yarnpkg.com/@arcblock/vc/-/vc-1.2.16.tgz#e60ec5ee1b5507fa53d77ae3d25cb54a819e8b27"
+  integrity sha512-iHx7Vk6QMWhyBkuXkd70UamAe92seEpGmblzREbg38jei88qvMhHxNQnlH5Rinf2SRcTRtYaG0SW6VxuF7FaVA==
+  dependencies:
+    "@arcblock/did" "^1.2.13"
+    "@arcblock/forge-util" "^1.2.13"
+    "@arcblock/forge-wallet" "^1.2.13"
+    "@arcblock/mcrypto" "^1.2.13"
+    debug "^4.1.1"
+    json-stable-stringify "^1.0.1"
+    lodash "^4.17.14"
 
 "@babel/code-frame@7.8.3":
   version "7.8.3"
@@ -9337,7 +9377,7 @@ package-json@^4.0.0:
     registry-url "^3.0.3"
     semver "^5.1.0"
 
-pako@~1.0.5:
+pako@^1.0.11, pako@~1.0.5:
   version "1.0.11"
   resolved "https://registry.yarnpkg.com/pako/-/pako-1.0.11.tgz#6c9599d340d54dfd3946380252a35705a6b992bf"
   integrity sha512-4hLB8Py4zZce5s4yd9XzopqwVv/yGNhV1Bl8NTmCq1763HeK2+EwVTv+leGeL13Dnh2wfbqowVPXCIO0z4taYw==

@@ -17,6 +17,8 @@
     "@arcblock/forge-util": "^1.2.13",
     "@arcblock/forge-wallet": "^1.2.13",
     "@arcblock/mcrypto": "^1.2.13",
+    "@arcblock/nft": "^1.3.1",
+    "@arcblock/nft-template": "^1.3.1",
     "@arcblock/react-hooks": "^0.78.0",
     "@arcblock/swap-storage-mongo": "^1.2.7",
     "@arcblock/tx-util": "^1.3.1",

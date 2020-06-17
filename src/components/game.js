@@ -24,10 +24,10 @@ export default class Game extends React.Component {
       loading: false,
     };
 
-    this.onNewGame = () => {
-      if (typeof this.props.onNewGame === 'function') {
+    this.onGameStart = () => {
+      if (typeof this.props.onGameStart === 'function') {
         this.setState({ loading: true });
-        this.props.onNewGame(err => {
+        this.props.onGameStart(err => {
           if (err) {
             this.setState({ message: err, loading: false });
           } else {
@@ -318,7 +318,13 @@ export default class Game extends React.Component {
       this.boardMoved(board, this.moveLeft(board).board),
     ];
 
-    return !moves.includes(true);
+    const isOver = !moves.includes(true);
+
+    if (isOver && typeof this.props.onGameOver === 'function') {
+      this.props.onGameOver(this.state);
+    }
+
+    return isOver;
   }
 
   componentWillMount() {
@@ -343,7 +349,7 @@ export default class Game extends React.Component {
     } else if (e.keyCode === left) {
       this.move('left');
     } else if (e.keyCode === n) {
-      this.onNewGame();
+      this.onGameStart();
     }
   }
 
@@ -366,7 +372,7 @@ export default class Game extends React.Component {
             variant="contained"
             color="secondary"
             style={{ width: '100px' }}
-            onClick={this.onNewGame}
+            onClick={this.onGameStart}
             disabled={this.props.chainInfo.chain.balance <= 0 || loading}>
             {loading ? <CircularProgress size={24} /> : 'New Game'}
           </Button>
