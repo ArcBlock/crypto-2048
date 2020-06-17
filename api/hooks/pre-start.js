@@ -20,11 +20,10 @@ const ensureAccountDeclared = async chainId => {
   if (!state) {
     console.error('Application account not declared on chain');
 
-    const app = ForgeSDK.Wallet.fromJSON(wallet);
     const hash = await ForgeSDK.declare(
       {
         moniker: 'crypto_2048',
-        wallet: app,
+        wallet,
       },
       { conn: chainId }
     );
