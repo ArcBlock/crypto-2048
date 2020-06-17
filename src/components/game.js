@@ -8,6 +8,7 @@
 /* eslint-disable no-plusplus */
 import React from 'react';
 
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Button from '@arcblock/ux/lib/Button';
 
 export default class Game extends React.Component {
@@ -19,18 +20,19 @@ export default class Game extends React.Component {
       score: 0,
       gameOver: false,
       message: null,
+      loading: false,
     };
   }
 
   // Create board with two random coordinate numbers
-  initBoard() {
+  initBoard(canPlay) {
     let board = [
       [0, 0, 0, 0],
       [0, 0, 0, 0],
       [0, 0, 0, 0],
       [0, 0, 0, 0],
     ];
-    if (Number(this.props.chainInfo.chain.balance) > 0) {
+    if (canPlay) {
       board = this.placeRandom(this.placeRandom(board));
     }
     this.setState({
@@ -324,33 +326,35 @@ export default class Game extends React.Component {
     } else if (e.keyCode === left) {
       this.move('left');
     } else if (e.keyCode === n) {
-      this.initBoard();
+      this.initBoard(true);
     }
   }
 
   render() {
     const onNewGame = () => {
       if (typeof this.props.onNewGame === 'function') {
-        this.props.onNewGame(() => {
-          this.initBoard();
+        this.setState({ loading: true });
+        this.props.onNewGame(err => {
+          if (err) {
+            this.setState({ message: err, loading: false });
+          } else {
+            this.setState({ loading: false });
+            this.initBoard(true);
+          }
         });
       } else {
         this.initBoard();
       }
     };
 
-    const onBuyCoins = () => {
-      if (typeof this.props.onBuyCoins === 'function') {
-        this.props.onBuyCoins();
-      }
-    };
+    const { board, score, message, loading } = this.state;
 
     return (
       <div>
         <div className="meta">
           <div className="score">
             Score:&nbsp;
-            {this.state.score}
+            {score}
           </div>
           <div className="score">
             Coin:&nbsp;
@@ -359,23 +363,21 @@ export default class Game extends React.Component {
           <Button
             size="small"
             variant="contained"
-            color="primary"
+            color="secondary"
+            style={{ width: '100px' }}
             onClick={onNewGame}
-            disabled={this.props.chainInfo.chain.balance <= 0}>
-            New Game
-          </Button>
-          <Button size="small" variant="contained" color="secondary" onClick={onBuyCoins}>
-            Buy Coins
+            disabled={this.props.chainInfo.chain.balance <= 0 || loading}>
+            {loading ? <CircularProgress size={24} /> : 'New Game'}
           </Button>
         </div>
         <table>
           <tbody>
-            {this.state.board.map((row, i) => (
+            {board.map((row, i) => (
               <Row key={i} row={row} />
             ))}
           </tbody>
         </table>
-        <p>{this.state.message}</p>
+        <p>{message}</p>
       </div>
     );
   }

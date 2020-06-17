@@ -32,6 +32,18 @@ export default function IndexPage() {
     setTimeout(onSwapClose, 1000);
   };
 
+  const onNewGame = done => {
+    api
+      .post('/api/game/start')
+      .then(async data => {
+        await session.refresh();
+        done(null, data);
+      })
+      .catch(err => {
+        done(err.message);
+      });
+  };
+
   return (
     <Layout title="Home">
       <Main>
@@ -41,7 +53,7 @@ export default function IndexPage() {
         </div>
         <p>Use arrow keys to play game. Press 'N' to start a new game.</p>
         <div id="main">
-          <Game chainInfo={{ chain, assetChain }} />
+          <Game chainInfo={{ chain, assetChain }} onNewGame={onNewGame} />
         </div>
         <Button variant="outlined" color="primary" onClick={() => setAuthOpen(true)}>
           Authorize

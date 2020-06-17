@@ -87,10 +87,10 @@ const { handlers, swapHandlers, wallet } = require('../libs/auth');
 const router = express.Router();
 
 handlers.attach(Object.assign({ app: router }, require('../routes/auth/login')));
-handlers.attach(Object.assign({ app: router }, require('../routes/auth/delegate')));
+handlers.attach(Object.assign({ app: router }, require('../routes/auth/authorize')));
 swapHandlers.attach(Object.assign({ app: router }, require('../routes/auth/swap')));
 require('../routes/session').init(router);
-require('../routes/payments').init(router);
+require('../routes/game').init(router);
 
 // Check for application account
 ForgeSDK.getAccountState({ address: wallet.toAddress() })
