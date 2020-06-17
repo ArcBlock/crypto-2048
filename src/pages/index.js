@@ -51,7 +51,11 @@ export default function IndexPage() {
           <h1 className="animated fadeInRightBig">Crypto 2048</h1>
           <Avatar className="user-avatar" variant="circle" src={session.user.avatar} alt={session.user.name} />
         </div>
-        <p>Use arrow keys to play game. Press 'N' to start a new game.</p>
+        <p>
+          Use arrow keys to play game.
+          <br />
+          Press 'N' to start a new game (each start will cost 2 coins)
+        </p>
         <div id="main">
           <Game chainInfo={{ chain, assetChain }} onNewGame={onNewGame} />
         </div>
@@ -74,7 +78,7 @@ export default function IndexPage() {
             extraParams={{}}
             messages={{
               title: 'Signature Required',
-              scan: 'Scan qrcode with ABT Wallet',
+              scan: 'Scan qrcode to authorize the game to charge you when start new game',
               confirm: 'Review this operation on ABT Wallet',
               success: 'Operation Success',
             }}
@@ -90,8 +94,8 @@ export default function IndexPage() {
             checkTimeout={5 * 60 * 1000}
             extraParams={{ tid: swapOpen }}
             messages={{
-              title: 'Signature Required',
-              scan: 'Scan qrcode with ABT Wallet',
+              title: 'Buy Game Coins',
+              scan: 'Scan qrcode to buy game coins at rate 1 TBA = 1000 Coin',
               confirm: 'Review this operation on ABT Wallet',
               success: 'Operation Success',
             }}
