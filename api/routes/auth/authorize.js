@@ -13,11 +13,6 @@ module.exports = {
       const address = toDelegateAddress(userDid, wallet.toAddress());
       const amount = await ForgeSDK.fromTokenToUnit(2);
 
-      const { state } = await ForgeSDK.getAccountState({ address: userDid });
-      if ((await ForgeSDK.fromUnitToToken(state.balance).toString()) <= 2) {
-        throw new Error('Your play balance is too low to play this game');
-      }
-
       return {
         type: 'DelegateTx',
         data: {
@@ -52,15 +47,14 @@ module.exports = {
 
     await verifyTxAsync({ hash, chainId: env.chainId, chainHost: env.chainHost });
 
-    const hash2 = await ForgeSDK.transfer({
-      to: wallet.toAddress(),
-      delegator: userDid,
-      token: 2,
-      memo: 'play game',
-      wallet,
-    });
-
-    console.log('try charge', hash2);
+    // const hash2 = await ForgeSDK.transfer({
+    //   to: wallet.toAddress(),
+    //   delegator: userDid,
+    //   token: 2,
+    //   memo: 'play game',
+    //   wallet,
+    // });
+    // console.log('try charge', hash2);
 
     return { hash, tx: claim.origin };
   },

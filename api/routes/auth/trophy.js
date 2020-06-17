@@ -18,7 +18,7 @@ const factory = new NFTFactory({
   },
 });
 
-const ensureBadge = async ({ userPk, userDid }) => {
+const createBadge = async ({ userPk, userDid }) => {
   const [asset] = await factory.createBadge({
     display: createZippedSvgDisplay(template(userDid)),
     data: {
@@ -43,7 +43,7 @@ module.exports = {
   action: 'trophy',
   claims: {
     signature: async ({ userDid, userPk }) => {
-      const badge = await ensureBadge({ userPk, userDid });
+      const badge = await createBadge({ userPk, userDid });
 
       return {
         description: 'Sign the text to get your trophy badge',
@@ -62,13 +62,9 @@ module.exports = {
     }
 
     const asset = JSON.parse(ForgeSDK.Util.fromBase58(claim.origin));
-    const hash = await ForgeSDK.sendTransferTx({
-      tx: {
-        itx: {
-          to: userDid,
-          assets: [asset],
-        },
-      },
+    const hash = await ForgeSDK.transfer({
+      to: userDid,
+      assets: [asset],
       wallet,
     });
 

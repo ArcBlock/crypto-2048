@@ -133,7 +133,7 @@ export default function IndexPage() {
             extraParams={{ tid: swapOpen }}
             messages={{
               title: 'Buy Game Coins',
-              scan: 'Scan qrcode to buy game coins at rate 1 TBA = 1000 Coin',
+              scan: 'Scan qrcode to buy game coins at rate 1 TBA = 100 Coin',
               confirm: 'Review this operation on ABT Wallet',
               success: 'Operation Success',
             }}
