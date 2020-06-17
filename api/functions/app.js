@@ -1,18 +1,23 @@
 /* eslint-disable no-console */
+const fs = require('fs');
+const path = require('path');
 const cors = require('cors');
 const compression = require('compression');
 const morgan = require('morgan');
+const nocache = require('nocache');
 const express = require('express');
 const serverless = require('serverless-http');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const bearerToken = require('express-bearer-token');
-const ForgeSDK = require('@arcblock/forge-sdk');
 
 const { decode } = require('../libs/jwt');
+const { handlers, swapHandlers } = require('../libs/auth');
 
-const isProduction = process.env.NODE_ENV === 'production';
+const netlifyPrefix = '/.netlify/functions/app';
+const isProduction = process.env.NODE_ENV === 'production' || !!process.env.BLOCKLET_APP_ID;
+const isNetlify = process.env.NETLIFY && JSON.parse(process.env.NETLIFY);
 
 if (!process.env.MONGO_URI) {
   throw new Error('Cannot start application without process.env.MONGO_URI');
@@ -82,8 +87,6 @@ server.use((req, res, next) => {
     });
 });
 
-const { handlers, swapHandlers, wallet } = require('../libs/auth');
-
 const router = express.Router();
 
 handlers.attach(Object.assign({ app: router }, require('../routes/auth/login')));
@@ -93,32 +96,20 @@ swapHandlers.attach(Object.assign({ app: router }, require('../routes/auth/swap'
 require('../routes/session').init(router);
 require('../routes/game').init(router);
 
-// Check for application account
-ForgeSDK.getAccountState({ address: wallet.toAddress() })
-  .then(res => {
-    if (!res.state) {
-      console.log('\n----------');
-      console.error('Application account not declared on chain, abort!');
-      console.error('Please run `node tools/declare.js` then start the application again');
-      console.log('----------\n');
-      process.exit(1);
-    } else {
-      console.error('Application account declared on chain');
-    }
-  })
-  .catch(err => {
-    console.error(err);
-    console.log('\n----------');
-    console.error('Application account check failed, abort!');
-    console.log('----------\n');
-    process.exit(1);
+if (isProduction) {
+  server.use(compression());
+  if (isNetlify) {
+    server.use(netlifyPrefix, router);
+  } else {
+    server.use(router);
+  }
+
+  const staticDir = process.env.BLOCKLET_APP_ID ? './' : '../../';
+  server.use(express.static(path.resolve(__dirname, staticDir, 'build'), { maxAge: '365d', index: false }));
+  server.get('*', nocache(), (req, res) => {
+    res.send(fs.readFileSync(path.resolve(__dirname, staticDir, 'build/index.html')).toString());
   });
 
-// ------------------------------------------------------
-// This is required by netlify functions
-// ------------------------------------------------------
-if (isProduction) {
-  server.use('/.netlify/functions/app', router);
   server.use((req, res) => {
     res.status(404).send('404 NOT FOUND');
   });
