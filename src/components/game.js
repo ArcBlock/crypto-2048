@@ -30,7 +30,9 @@ export default class Game extends React.Component {
       [0, 0, 0, 0],
       [0, 0, 0, 0],
     ];
-    board = this.placeRandom(this.placeRandom(board));
+    if (Number(this.props.chainInfo.chain.balance) > 0) {
+      board = this.placeRandom(this.placeRandom(board));
+    }
     this.setState({
       board,
       score: 0,
