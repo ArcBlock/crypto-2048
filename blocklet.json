@@ -1,0 +1,43 @@
+{
+  "name": "crypto-2048",
+  "description": "A simple blockchain game that demos capabilities of ArcBlock technologies such as blockchain, did, abtnode",
+  "group": "dapp",
+  "color": "primary",
+  "main": "api/index.js",
+  "provider": "devcon",
+  "public_url": "/",
+  "hooks": {
+    "pre-start": "node api/hooks/pre-start.js",
+    "pre-deploy": "npm run bundle"
+  },
+  "hookFiles": ["api/hooks/pre-start.js"],
+  "requiredEnvironments": [
+    {
+      "name": "LOCAL_CHAIN_ID",
+      "description": "ID of the chain game coin lives",
+      "required": true,
+      "default": "playground"
+    },
+    {
+      "name": "LOCAL_CHAIN_HOST",
+      "description": "Host of the chain game coin lives",
+      "required": true,
+      "default": "https://playground.network.arcblockio.cn/api"
+    },
+    {
+      "name": "FOREIGN_CHAIN_ID",
+      "description": "ID of the chain native token lives",
+      "required": true,
+      "default": "zinc-2019-05-17"
+    },
+    {
+      "name": "FOREIGN_CHAIN_HOST",
+      "description": "Host of the chain native token lives",
+      "required": true,
+      "default": "https://zinc.abtnetwork.io/api"
+    }
+  ],
+  "version": "0.1.0",
+  "keywords": ["blockchain", "forge", "game"],
+  "author": "wangshijun <wangshijun2010@gmail.com>"
+}
