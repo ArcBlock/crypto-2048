@@ -24,18 +24,20 @@ module.exports = {
 
       const exist = await User.findOne({ did: userDid });
       if (exist) {
-        await User.update(
+        const result = await User.update(
           { _id: exist._id },
-          { name: profile.fullName, avatar: profile.avatar },
+          { $set: { name: profile.fullName, avatar: profile.avatar } },
           { multi: false, upsert: false }
         );
+        console.log('update user', { userDid, result });
       } else {
-        await User.insert({
+        const result = await User.insert({
           did: userDid,
           name: profile.fullName,
           email: profile.email,
           avatar: profile.avatar,
         });
+        console.log('create user', { userDid, result });
       }
 
       // Generate new session token that client can save to localStorage
