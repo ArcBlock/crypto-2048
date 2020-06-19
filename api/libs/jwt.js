@@ -2,11 +2,7 @@
 const jwt = require('jsonwebtoken');
 const { User } = require('../models');
 
-if (!process.env.APP_TOKEN_SECRET) {
-  throw new Error('APP_TOKEN_SECRET must be set to start the application');
-}
-
-const secret = process.env.APP_TOKEN_SECRET;
+const secret = process.env.APP_TOKEN_SECRET || 'jsfljwier!@(#E$KQJF';
 // @link checkout https://github.com/auth0/node-jsonwebtoken#usage for ttl syntax
 const ttl = Number(process.env.APP_TOKEN_TTL) ? Number(process.env.APP_TOKEN_TTL) : '1d';
 
