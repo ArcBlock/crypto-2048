@@ -61,6 +61,7 @@
     "lint": "eslint src api",
     "precommit": "yarn lint",
     "prepush": "yarn lint",
+    "publish": "npm publish _blocklet",
     "clean": "rm -rf build api/dist",
     "start": "npm-run-all --parallel start:*",
     "start:client": "react-scripts start",
