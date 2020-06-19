@@ -13,25 +13,25 @@
     {
       "name": "LOCAL_CHAIN_ID",
       "description": "ID of the chain game coin lives",
-      "required": true,
+      "required": false,
       "default": "playground"
     },
     {
       "name": "LOCAL_CHAIN_HOST",
       "description": "Host of the chain game coin lives",
-      "required": true,
+      "required": false,
       "default": "https://playground.network.arcblockio.cn/api"
     },
     {
       "name": "FOREIGN_CHAIN_ID",
       "description": "ID of the chain native token lives",
-      "required": true,
+      "required": false,
       "default": "zinc-2019-05-17"
     },
     {
       "name": "FOREIGN_CHAIN_HOST",
       "description": "Host of the chain native token lives",
-      "required": true,
+      "required": false,
       "default": "https://zinc.abtnetwork.io/api"
     }
   ],
