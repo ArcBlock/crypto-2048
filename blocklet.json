@@ -1,6 +1,4 @@
 {
-  "name": "crypto-2048",
-  "description": "A simple blockchain game that demos capabilities of ArcBlock technologies such as blockchain, did, abtnode",
   "group": "dapp",
   "color": "primary",
   "main": "api/index.js",
