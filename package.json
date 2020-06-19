@@ -79,6 +79,7 @@
     "precommit": "yarn lint",
     "prepush": "yarn lint",
     "clean": "rm -rf build api/dist _blocklet",
+    "publish": "npm publish _blocklet",
     "start": "npm-run-all --parallel start:*",
     "start:client": "react-scripts start",
     "start:server": "nodemon api/index.js -w api",

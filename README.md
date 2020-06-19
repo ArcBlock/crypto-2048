@@ -2,6 +2,8 @@
 
 > The sample starter project used in the "Workshop: Building a blockchain game with Forge SDK and Javascript on ABT Node", which is a session from ArcBlock DevCon 2020
 
+**For complete and working version of this game, please checkout release branch.**
+
 ## Requirements
 
 - Install `@abtnode/cli`
