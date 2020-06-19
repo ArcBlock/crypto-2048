@@ -2,7 +2,7 @@
   "name": "crypto-2048",
   "description": "A simple blockchain game that demos capabilities of ArcBlock technologies such as blockchain, did, abtnode",
   "title": "Crypto 2048",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "keywords": [
     "blockchain",
     "forge",
