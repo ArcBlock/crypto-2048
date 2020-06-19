@@ -1,13 +1,11 @@
+const path = require('path');
 const Mcrypto = require('@arcblock/mcrypto');
 const ForgeSDK = require('@arcblock/forge-sdk');
-const MongoStorage = require('@arcblock/did-auth-storage-mongo');
-const SwapMongoStorage = require('@arcblock/swap-storage-mongo');
+const AuthStorage = require('@arcblock/did-auth-storage-nedb');
+const SwapStorage = require('@arcblock/swap-storage-nedb');
 const { fromSecretKey, WalletType } = require('@arcblock/forge-wallet');
 const { WalletAuthenticator, WalletHandlers, SwapHandlers } = require('@arcblock/did-auth');
 const env = require('./env');
-
-const netlifyPrefix = '/.netlify/functions/app';
-const isNetlify = process.env.NETLIFY && JSON.parse(process.env.NETLIFY);
 
 const type = WalletType({
   role: Mcrypto.types.RoleType.ROLE_APPLICATION,
@@ -34,12 +32,12 @@ const walletJSON = wallet.toJSON();
 
 const walletAuth = new WalletAuthenticator({
   wallet: walletJSON,
-  baseUrl: isNetlify ? env.baseUrl.replace(netlifyPrefix, '') : env.baseUrl,
+  baseUrl: env.baseUrl,
   appInfo: {
     name: env.appName,
     description: env.appDescription,
     icon: 'https://arcblock.oss-cn-beijing.aliyuncs.com/images/wallet-round.png',
-    link: isNetlify ? env.baseUrl.replace(netlifyPrefix, '') : env.baseUrl.replace(process.env.PORT || '3030', '3000'),
+    link: env.baseUrl,
   },
   chainInfo: {
     host: env.chainHost,
@@ -47,15 +45,16 @@ const walletAuth = new WalletAuthenticator({
   },
 });
 
-const tokenStorage = new MongoStorage({ url: process.env.MONGO_URI });
-const swapStorage = new SwapMongoStorage({ url: process.env.MONGO_URI });
+const dataDir = process.env.BLOCKLET_DATA_DIR || process.env.DATA_DIR;
+
+const tokenStorage = new AuthStorage({ dbPath: path.join(dataDir, 'auth.db') });
+const swapStorage = new SwapStorage({ dbPath: path.join(dataDir, 'swap.db') });
 
 const walletHandlers = new WalletHandlers({
   authenticator: walletAuth,
   tokenGenerator: () => Date.now().toString(),
   tokenStorage,
 });
-
 
 const swapHandlers = new SwapHandlers({
   authenticator: walletAuth,
@@ -78,4 +77,5 @@ module.exports = {
   swapHandlers,
   swapStorage,
   wallet,
+  dataDir,
 };

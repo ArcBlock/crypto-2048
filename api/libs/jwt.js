@@ -32,7 +32,7 @@ function decode(token) {
         return reject(new Error('Invalid jwt token: invalid did or uid'));
       }
 
-      const user = await User.findById(uid);
+      const user = await User.findOne({ _id: uid });
       if (!user) {
         return reject(new Error('Invalid jwt token: invalid uid'));
       }
@@ -40,7 +40,7 @@ function decode(token) {
         return reject(new Error('Invalid jwt token: invalid did and uid pair'));
       }
 
-      return resolve(user.toJSON());
+      return resolve(user);
     });
   });
 }

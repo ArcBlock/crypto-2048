@@ -1,15 +1,16 @@
-const mongoose = require('mongoose');
+const path = require('path');
+const DataStore = require('nedb-promise');
 
-const UserSchema = new mongoose.Schema({
-  did: { type: String, required: true },
-  name: { type: String, required: true },
-  email: { type: String, default: '' },
-  mobile: { type: String, default: '' },
-  avatar: { type: String, default: '' },
-  createdAt: { type: Date },
-  updatedAt: { type: Date },
+const { dataDir } = require('../libs/auth');
+
+module.exports = new DataStore({
+  filename: path.join(dataDir, 'users.db'),
+  autoload: true,
+  timestampData: true,
+  onload: err => {
+    if (err) {
+      // eslint-disable-next-line
+      console.error(`failed to load disk database ${this.filename}`, err);
+    }
+  },
 });
-
-const User = mongoose.model('User', UserSchema);
-
-module.exports = User;
