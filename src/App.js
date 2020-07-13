@@ -31,7 +31,7 @@ const GlobalStyle = createGlobalStyle`
 export const App = () => (
   <MuiThemeProvider theme={theme}>
     <ThemeProvider theme={theme}>
-      <SessionProvider serviceHost="" autoLogin>
+      <SessionProvider serviceHost={window.env.apiPrefix} autoLogin>
         {({ session }) => {
           if (session.loading) {
             return (
@@ -62,7 +62,7 @@ export const App = () => (
 const WrappedApp = withRouter(App);
 
 export default () => (
-  <Router>
+  <Router basename={window.env.apiPrefix}>
     <WrappedApp />
   </Router>
 );
