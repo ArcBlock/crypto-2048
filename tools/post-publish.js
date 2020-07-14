@@ -9,4 +9,5 @@ const axios = require('axios');
   } catch (error) {
     console.error('trigger blocklets build failed:', error);
   }
+  process.exit(0);
 })();
