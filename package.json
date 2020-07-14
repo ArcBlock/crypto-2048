@@ -19,7 +19,7 @@
     "blocklet.md"
   ],
   "publishConfig": {
-    "access": "public",
+    "access": "public"
   },
   "dependencies": {
     "@abtnode/util": "^0.6.29",
