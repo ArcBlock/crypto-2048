@@ -27,6 +27,7 @@ module.exports = {
     process.env.baseUrl ||
     '',
   apiPrefix:
+    process.env.BLOCKLET_PREFIX ||
     process.env.REACT_APP_API_PREFIX ||
     process.env.GATSBY_API_PREFIX ||
     process.env.NF_API_PREFIX ||
