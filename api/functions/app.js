@@ -1,15 +1,15 @@
 /* eslint-disable no-console */
-const fs = require('fs');
 const path = require('path');
 const cors = require('cors');
 const compression = require('compression');
 const morgan = require('morgan');
-const nocache = require('nocache');
 const express = require('express');
 const serverless = require('serverless-http');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const bearerToken = require('express-bearer-token');
+const getRouterAdapter = require('@abtnode/router-adapter');
+const fallback = require('express-history-api-fallback');
 
 const { decode } = require('../libs/jwt');
 const { handlers, swapHandlers } = require('../libs/auth');
@@ -76,10 +76,10 @@ if (isProduction) {
   server.use(router);
 
   const staticDir = process.env.BLOCKLET_APP_ID ? './' : '../../';
-  server.use(express.static(path.resolve(__dirname, staticDir, 'build'), { maxAge: '365d', index: false }));
-  server.get('*', nocache(), (req, res) => {
-    res.send(fs.readFileSync(path.resolve(__dirname, staticDir, 'build/index.html')).toString());
-  });
+  server.use(getRouterAdapter());
+  const staticDirNew = path.resolve(__dirname, staticDir, 'build');
+  server.use(express.static(staticDirNew, { maxAge: '365d', index: false }));
+  server.use(fallback('index.html', { root: staticDirNew }));
 
   server.use((req, res) => {
     res.status(404).send('404 NOT FOUND');
