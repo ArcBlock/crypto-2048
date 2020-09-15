@@ -34,7 +34,7 @@ The video includes walk through guides that include:
 
 ## Game design: UI
 
-![](./images/game.png)
+![](./screenshots/0-home.png)
 
 ## Game design: Rules
 

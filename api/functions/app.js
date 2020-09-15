@@ -8,7 +8,6 @@ const serverless = require('serverless-http');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const bearerToken = require('express-bearer-token');
-const getRouterAdapter = require('@abtnode/router-adapter');
 const fallback = require('express-history-api-fallback');
 
 const { decode } = require('../libs/jwt');
@@ -75,10 +74,16 @@ if (isProduction) {
   server.use(compression());
   server.use(router);
 
+  if (process.env.BLOCKLET_DID) {
+    server.use(`/${process.env.BLOCKLET_DID}`, router);
+  }
+
   const staticDir = process.env.BLOCKLET_APP_ID ? './' : '../../';
-  server.use(getRouterAdapter());
   const staticDirNew = path.resolve(__dirname, staticDir, 'build');
   server.use(express.static(staticDirNew, { maxAge: '365d', index: false }));
+  if (process.env.BLOCKLET_DID) {
+    server.use(`/${process.env.BLOCKLET_DID}`, express.static(staticDirNew, { maxAge: '365d', index: false }));
+  }
   server.use(fallback('index.html', { root: staticDirNew }));
 
   server.use((req, res) => {

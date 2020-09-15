@@ -2,9 +2,8 @@ import axios from 'axios';
 
 axios.interceptors.request.use(
   config => {
-    if (window.env.apiPrefix) {
-      config.baseURL = window.env.apiPrefix;
-    }
+    const prefix = window.blocklet ? window.blocklet.prefix : window.env.apiPrefix;
+    config.baseURL = prefix || '';
     config.timeout = 200000;
 
     const token = localStorage.getItem('login_token');

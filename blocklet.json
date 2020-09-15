@@ -35,7 +35,6 @@
       "default": "https://zinc.abtnetwork.io/api"
     }
   ],
-  "version": "0.1.0",
   "keywords": ["blockchain", "forge", "game"],
   "author": "wangshijun <wangshijun2010@gmail.com>"
 }

@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 /* eslint-disable object-curly-newline */
 import React from 'react';
 import { create } from '@arcblock/ux/lib/Theme';
@@ -28,10 +29,19 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
+let apiPrefix = '/';
+if (window.blocklet && window.blocklet.prefix) {
+  apiPrefix = window.blocklet.prefix;
+} else if (window.env && window.env.apiPrefix) {
+  apiPrefix = window.env.apiPrefix;
+}
+
+console.log(`apiPrefix:${apiPrefix}`);
+
 export const App = () => (
   <MuiThemeProvider theme={theme}>
     <ThemeProvider theme={theme}>
-      <SessionProvider serviceHost={window.env && window.env.apiPrefix ? window.env.apiPrefix : '/'} autoLogin>
+      <SessionProvider serviceHost={apiPrefix} autoLogin>
         {({ session }) => {
           if (session.loading) {
             return (
@@ -66,6 +76,10 @@ export default () => {
   if (window.env && window.env.apiPrefix) {
     basename = window.env.apiPrefix.indexOf('.netlify/') > -1 ? '/' : window.env.apiPrefix;
   }
+  if (window.blocklet && window.blocklet.prefix) {
+    basename = window.blocklet.prefix;
+  }
+  console.log(`basename:${basename}`);
   return (
     <Router basename={basename}>
       <WrappedApp />
