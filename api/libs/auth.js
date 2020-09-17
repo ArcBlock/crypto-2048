@@ -27,7 +27,7 @@ if (env.chainHost) {
   }
 }
 
-const wallet = fromSecretKey(process.env.BLOCKLET_APP_SK || process.env.APP_SK, type);
+const wallet = fromSecretKey(process.env.APP_SK || process.env.BLOCKLET_APP_SK, type);
 const walletJSON = wallet.toJSON();
 
 const walletAuth = new WalletAuthenticator({

@@ -85,7 +85,7 @@
     "bundle": "yarn clean && npm-run-all bundle:*",
     "bundle:client": "PUBLIC_URL=\"/z8iZqHcgrbAntF8SZMWmNMYLvJB5VjFAMndzo\" REACT_APP_APP_NAME=\"Crypto 2048\" react-scripts build",
     "bundle:server": "NODE_ENV=production abtnode bundle -w api/webpack.blocklet.js",
-    "prerelease": "npm run bundle && rm -f _blocklet/build/**/*.js.map",
+    "prerelease": "npm run bundle && rm -f _blocklet/build/**/**/*.js.map",
     "release": "npm publish _blocklet",
     "postrelease": "node tools/post-publish.js",
     "test": "react-scripts test",
